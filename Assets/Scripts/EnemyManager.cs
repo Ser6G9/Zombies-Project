@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -55,8 +56,9 @@ public class EnemyManager : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+            gameManager.enemiesAlive--;
         }
     }
 
-
+    
 }

@@ -7,6 +7,8 @@ public class WeaponManager : MonoBehaviour
     public GameObject playerCam; // Fa referència a la càmera del jugador FPS
     public float range; // Fins on volem que arribin els tirs
     public float damage = 25f;
+    
+    public Animator playerAnimator;
 
     void Update()
     {
@@ -15,10 +17,17 @@ public class WeaponManager : MonoBehaviour
             //Debug.Log("Pium!");
             Shoot();
         }
+        
+        if (playerAnimator.GetBool("isShooting"))
+        {
+            //playerAnimator.SetBool("isShooting", false);
+        }
+
     }
 
     private void Shoot()
     {
+        playerAnimator.SetBool("isShooting", true);
         RaycastHit hit;
         if (Physics.Raycast(playerCam.transform.position, transform.forward, out hit, range))
         {
