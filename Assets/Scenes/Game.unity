@@ -2824,6 +2824,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 8dc567ecf6512584dbdcd648db15fb3e, type: 2}
+    - target: {fileID: 2607514460892022392, guid: 866e396a5a141f640a9ff59b122dd87f,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4468589183130861080, guid: 866e396a5a141f640a9ff59b122dd87f,
         type: 3}
       propertyPath: healthText
