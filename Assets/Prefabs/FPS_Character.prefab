@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 544469234837825105}
   - component: {fileID: 2607514460892022392}
   - component: {fileID: 2607514460892022395}
+  - component: {fileID: 4468589183130861080}
+  - component: {fileID: 2607514460892022373}
   - component: {fileID: 2607514460892022375}
   - component: {fileID: 2607514460892022372}
-  - component: {fileID: 2607514460892022373}
   - component: {fileID: 7640996190203262126}
   m_Layer: 0
   m_Name: FPS_Character
@@ -72,6 +73,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookSpeed: 2.5
+--- !u!114 &4468589183130861080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51445338111471238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf915dbd0765cff4a95d90306cdfe09a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  playerSpeed: 2
+--- !u!114 &2607514460892022373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51445338111471238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b721965ca5888498eb904bf8d6b00d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 7640996190203262126}
+  speed: 8
+  jumpHeight: 2
+  gravity: -9.81
+  isGrounded: 0
+  groundCheck: {fileID: 1944467785725353509}
+  groundDistance: 0.4
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!54 &2607514460892022375
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -102,28 +139,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: -0.3, z: 0}
---- !u!114 &2607514460892022373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 51445338111471238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04b721965ca5888498eb904bf8d6b00d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 7640996190203262126}
-  speed: 8
-  jumpHeight: 2
-  gravity: -9.81
-  isGrounded: 0
-  groundCheck: {fileID: 1944467785725353509}
-  groundDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!143 &7640996190203262126
 CharacterController:
   m_ObjectHideFlags: 0

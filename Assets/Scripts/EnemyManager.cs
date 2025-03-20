@@ -6,19 +6,11 @@ using UnityEngine.AI;
 
 public class EnemyManager : MonoBehaviour
 {
+    public Animator enemyAnimator;
     public GameObject player;
     public float damage = 20.0f;
-    public Animator enemyAnimator;
-
-    private void OnTriggerEnter(Collider other)
-    {
-        PlayerManager player = other.GetComponent<PlayerManager>();
-
-        if (player != null)
-        {
-            player.Hit(damage);
-        }
-    }
+    public float health = 100.0f;
+    public GameManager gameManager;
     
     void Start()
     {
@@ -46,14 +38,25 @@ public class EnemyManager : MonoBehaviour
         }
 
     }
-    
+
     // Detectar la col·lisió
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject == player)
         {
-            Debug.Log("L'enemic m'ataca!!");
+            Debug.Log("El FPS m'ataca!!");
+            player.GetComponent<PlayerManager>().Hit(damage);
         }
     }
+    
+    public void Hit(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 
 }

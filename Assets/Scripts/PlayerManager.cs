@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class PlayerManager : MonoBehaviour
 {
     public float health = 100.0f;
-    public float playerSpeed = 2.0f;
 
     void Start()
     {
@@ -24,7 +23,7 @@ public class PlayerManager : MonoBehaviour
 
         if (health <= 0)
         {
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene(0);
         }
     }
 }
