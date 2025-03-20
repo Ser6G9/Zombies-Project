@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public CharacterController controller;
     public float speed = 8.0f;
     public float jumpHeight = 2f;
     
@@ -19,16 +20,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
 
-        transform.Translate(horizontal * Time.deltaTime * speed, 0,
-            vertical * Time.deltaTime * speed);
+        Vector3 move = transform.right * x + transform.forward * z;
+        controller.Move(move* speed * Time.deltaTime);
         
         // Gravetat
         // Formula de velocitat = acceleració * temps^2
         velocity.y += gravity * Time.deltaTime;
-        //controller.Move(velocity * Time.deltaTime);
+        controller.Move(velocity * Time.deltaTime);
         //print(velocity.y);
         
         // Mirar si estic tocant el terra
