@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     {
         pausePanel.SetActive(false);
         gameOverPanel.SetActive(false);
-        NextWave(50);
+        NextWave(20);
     }
 
     // Update is called once per frame

@@ -4,14 +4,18 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class EnemyManager : MonoBehaviour
 {
     public Animator enemyAnimator;
     public GameObject player;
     public float damage = 20.0f;
+    public float damageDelay = 1.0f;
+    public bool canAtack = true;
     public float health = 100.0f;
     public GameManager gameManager;
+    public Slider healthBar;
     
     void Start()
     {
@@ -19,6 +23,8 @@ public class EnemyManager : MonoBehaviour
         // des de l'inspector, sinò que l'assginarem des del codi
         // En concret volem cercar al jugador principal!!
         player = GameObject.FindGameObjectWithTag("Player");
+        healthBar.maxValue = health;
+        healthBar.value = health;
     }
 
 
@@ -37,22 +43,34 @@ public class EnemyManager : MonoBehaviour
         {
             enemyAnimator.SetBool("isRunning", false);
         }
+        
+        // Para impedir que el Zombie golpee muchas veces seguidas, se ha aplicado un segundo de delay entre ataques.
+        
 
     }
 
     // Detectar la col·lisió
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject == player)
+        if(collision.gameObject == player && canAtack)
         {
             Debug.Log("El FPS m'ataca!!");
-            player.GetComponent<PlayerManager>().Hit(damage);
+            StartCoroutine(Attack());
         }
+    }
+
+    IEnumerator Attack()
+    {
+        canAtack = false;
+        player.GetComponent<PlayerManager>().Hit(damage);
+        yield return new WaitForSeconds(damageDelay);
+        canAtack = true;
     }
     
     public void Hit(float damage)
     {
         health -= damage;
+        healthBar.value = health;
         if (health <= 0)
         {
             Destroy(gameObject);

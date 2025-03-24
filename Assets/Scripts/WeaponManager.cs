@@ -20,7 +20,7 @@ public class WeaponManager : MonoBehaviour
         
         if (playerAnimator.GetBool("isShooting"))
         {
-            //playerAnimator.SetBool("isShooting", false);
+            playerAnimator.SetBool("isShooting", false);
         }
 
     }
