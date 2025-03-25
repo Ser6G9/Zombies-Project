@@ -991,11 +991,14 @@ MonoBehaviour:
   enemyAnimator: {fileID: 4404373066335046630}
   player: {fileID: 0}
   damage: 10
-  damageDelay: 1
   canAtack: 1
   health: 50
   gameManager: {fileID: 0}
   healthBar: {fileID: 810625431545731520}
+  playerInReach: 0
+  attackDelayTimer: 0
+  howMuchEarlierStartAttackAnimation: 5
+  delayBetweenAttacks: 1
 --- !u!195 &6173366470576245378
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1010,7 +1013,7 @@ NavMeshAgent:
   m_Acceleration: 50
   avoidancePriority: 50
   m_AngularSpeed: 200
-  m_StoppingDistance: 2
+  m_StoppingDistance: 1.2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

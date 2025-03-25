@@ -11,11 +11,17 @@ public class EnemyManager : MonoBehaviour
     public Animator enemyAnimator;
     public GameObject player;
     public float damage = 20.0f;
-    public float damageDelay = 1.0f;
     public bool canAtack = true;
     public float health = 100.0f;
     public GameManager gameManager;
     public Slider healthBar;
+    
+    // Animacio i millora del xoc
+    public bool playerInReach = false;
+    public float attackDelayTimer = 0f;
+    public float howMuchEarlierStartAttackAnimation = 2f;
+    public float delayBetweenAttacks = 1.0f;
+
     
     void Start()
     {
@@ -54,17 +60,36 @@ public class EnemyManager : MonoBehaviour
     {
         if(collision.gameObject == player && canAtack)
         {
-            Debug.Log("El FPS m'ataca!!");
-            StartCoroutine(Attack());
+            //Debug.Log("El FPS m'ataca!!");
+            //player.GetComponent<PlayerManager>().Hit(damage);
+            playerInReach = true;
+        }
+    }
+    
+    private void OnCollisionStay(Collision collision)
+    {
+        if (playerInReach)
+        {
+            attackDelayTimer += Time.deltaTime;
+            if(attackDelayTimer >= delayBetweenAttacks - howMuchEarlierStartAttackAnimation && attackDelayTimer <= delayBetweenAttacks)
+            {
+                enemyAnimator.SetTrigger("isAttacking");
+            }
+            if(attackDelayTimer >= delayBetweenAttacks)
+            {
+                player.GetComponent<PlayerManager>().Hit(damage);
+                attackDelayTimer = 0;
+            }
         }
     }
 
-    IEnumerator Attack()
+    private void OnCollisionExit(Collision collision)
     {
-        canAtack = false;
-        player.GetComponent<PlayerManager>().Hit(damage);
-        yield return new WaitForSeconds(damageDelay);
-        canAtack = true;
+        if (collision.gameObject == player)
+        {
+            playerInReach = false;
+            attackDelayTimer = 0;
+        }
     }
     
     public void Hit(float damage)

@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemiesAlive: 0
-  round: 30
+  round: 2
   player: {fileID: 1894579915508190259}
   spawnPoints:
   - {fileID: 790188732}
