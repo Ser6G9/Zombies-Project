@@ -7,11 +7,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public int enemiesAlive;
-    public int round;
+    public int round = 1;
     public GameObject player;
 
     public GameObject[] spawnPoints;
-    public GameObject enemyPrefab;
+    public GameObject[] enemysPrefabs;
     public TextMeshProUGUI enemiesText;
     public TextMeshProUGUI roundsText;
     public GameObject pausePanel;
@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     {
         pausePanel.SetActive(false);
         gameOverPanel.SetActive(false);
-        NextWave(20);
+        NextWave(round);
     }
 
     // Update is called once per frame
@@ -51,10 +51,16 @@ public class GameManager : MonoBehaviour
             int randPos = Random.Range(0, spawnPoints.Length);
             GameObject spawnPoint = spawnPoints[randPos];
 
-            GameObject enemyInstance = Instantiate(enemyPrefab, spawnPoint.transform.position, Quaternion.identity);
+            GameObject enemyInstance = Instantiate(SetRandomEnemy(), spawnPoint.transform.position, Quaternion.identity);
             enemyInstance.GetComponent<EnemyManager>().gameManager = GetComponent<GameManager>();
             enemiesAlive++;
         }
+    }
+
+    public GameObject SetRandomEnemy()
+    {
+        int randPos = Random.Range(0, enemysPrefabs.Length);
+        return enemysPrefabs[randPos];
     }
     
     public void RestartGame()

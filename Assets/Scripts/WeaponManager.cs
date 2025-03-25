@@ -8,11 +8,12 @@ public class WeaponManager : MonoBehaviour
     public float range; // Fins on volem que arribin els tirs
     public float damage = 25f;
     
+    public GameManager gameManager;
     public Animator playerAnimator;
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && gameManager.paused == false)
         {
             //Debug.Log("Pium!");
             Shoot();

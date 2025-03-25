@@ -922,7 +922,7 @@ GameObject:
   - component: {fileID: 6173366470576245380}
   - component: {fileID: 6173366470576245378}
   m_Layer: 0
-  m_Name: Zombie
+  m_Name: Little Zombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -937,7 +937,7 @@ Transform:
   m_GameObject: {fileID: 3593327308099812814}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.35, y: 0, z: 4.356}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.4, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9207416933019070186}
@@ -973,9 +973,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.7
-  m_Height: 1.5
+  m_Height: 3
   m_Direction: 1
-  m_Center: {x: 0, y: 2.5, z: 0.6}
+  m_Center: {x: 0, y: 2.5, z: 0.2}
 --- !u!114 &6173366470576245380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -990,10 +990,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyAnimator: {fileID: 4404373066335046630}
   player: {fileID: 0}
-  damage: 20
+  damage: 10
   damageDelay: 1
   canAtack: 1
-  health: 100
+  health: 50
   gameManager: {fileID: 0}
   healthBar: {fileID: 810625431545731520}
 --- !u!195 &6173366470576245378
@@ -1006,10 +1006,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2
+  m_Speed: 3.5
   m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 240
+  m_AngularSpeed: 200
   m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
