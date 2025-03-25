@@ -98,7 +98,13 @@ public class EnemyManager : MonoBehaviour
         healthBar.value = health;
         if (health <= 0)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            //Destroy(gameObject,10f);
+            Destroy(GetComponent<NavMeshAgent>());
+            Destroy(GetComponent<EnemyManager>());
+            Destroy(GetComponent<CapsuleCollider>());
+            enemyAnimator.SetTrigger("isDead");
+
             gameManager.enemiesAlive--;
         }
     }
