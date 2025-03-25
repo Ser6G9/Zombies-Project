@@ -7,7 +7,7 @@ public class MouseLook : MonoBehaviour
     public float lookSpeed = 2;
     private Vector2 rotation = Vector2.zero;
     
-    private float xRotation = 0f;
+    //private float xRotation = 0f;
 
     void Update()
     {

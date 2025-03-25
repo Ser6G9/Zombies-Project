@@ -100,6 +100,7 @@ public class EnemyManager : MonoBehaviour
         {
             //Destroy(gameObject);
             //Destroy(gameObject,10f);
+            Destroy(GetComponent<BoxCollider>());
             Destroy(GetComponent<NavMeshAgent>());
             Destroy(GetComponent<EnemyManager>());
             Destroy(GetComponent<CapsuleCollider>());

@@ -8138,9 +8138,25 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5132170365781194415, guid: 866e396a5a141f640a9ff59b122dd87f,
         type: 3}
+      propertyPath: damage
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5132170365781194415, guid: 866e396a5a141f640a9ff59b122dd87f,
+        type: 3}
+      propertyPath: fireRate
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5132170365781194415, guid: 866e396a5a141f640a9ff59b122dd87f,
+        type: 3}
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 86639411}
+    - target: {fileID: 5132170365781194415, guid: 866e396a5a141f640a9ff59b122dd87f,
+        type: 3}
+      propertyPath: impactParticleSystem
+      value: 
+      objectReference: {fileID: 5972266483897041152, guid: 1aa3222899074e84a809af3a55bfd933,
+        type: 3}
     - target: {fileID: 6506387569018451771, guid: 866e396a5a141f640a9ff59b122dd87f,
         type: 3}
       propertyPath: m_RootOrder
