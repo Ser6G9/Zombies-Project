@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public int enemiesAlive;
-    public int round = 1;
+    public int round = 0;
     public GameObject player;
 
     public GameObject[] spawnPoints;
@@ -21,27 +21,40 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pausePanel.SetActive(false);
-        gameOverPanel.SetActive(false);
-        NextWave(round);
+        if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            pausePanel.SetActive(false);
+            gameOverPanel.SetActive(false);
+            NextWave(round);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (roundsText != null)
+        if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 2)
         {
-            enemiesText.text = "Enemigos restantes: "+enemiesAlive;
-            roundsText.text = "Oleada "+round;
+            if (roundsText != null)
+            {
+                enemiesText.text = "Enemigos restantes: "+enemiesAlive;
+                roundsText.text = "Oleada "+round;
+            }
+                    
+            if (Input.GetKeyDown(KeyCode.Escape) && !paused)
+            {
+                Pause();
+            } else if (Input.GetKeyDown(KeyCode.Escape) && paused)
+            {
+                Resume();
+            }
+            
+            if (enemiesAlive <= 0)
+            {
+                round++;
+                NextWave(round);
+            }
         }
         
-        if (Input.GetKeyDown(KeyCode.Escape) && !paused)
-        {
-            Pause();
-        } else if (Input.GetKeyDown(KeyCode.Escape) && paused)
-        {
-            Resume();
-        }
     }
     
     public void NextWave(int round)

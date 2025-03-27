@@ -40,10 +40,10 @@ public class PlayerManager : MonoBehaviour
     {
         hitPanel.alpha = 1;
         health -= damage;
-        healthText.text = health.ToString();
-
+        
         if (health <= 0)
         {
+            health = 0;
             GameManager gameManager = GameObject.FindObjectOfType<GameManager>();
             gameManager.GameOver();
         }
@@ -51,6 +51,8 @@ public class PlayerManager : MonoBehaviour
         {
             shakeTime = 0;
         }
+
+        healthText.text = health.ToString();
     }
     
     public void CameraShake()

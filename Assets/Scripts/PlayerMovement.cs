@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
-    public float speed = 8.0f;
+    public float speed;
+    public float walkSpeed = 5f;
+    public float runSpeed = 10f;
     public float jumpHeight = 2f;
     
     private Vector3 velocity;
@@ -46,6 +48,13 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
 
-
+        if (Input.GetButton("Fire3"))
+        {
+            speed = runSpeed;
+        }
+        else
+        {
+            speed = walkSpeed;
+        }
     }
 }

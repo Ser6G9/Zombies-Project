@@ -22,6 +22,9 @@ public class EnemyManager : MonoBehaviour
     public float howMuchEarlierStartAttackAnimation = 2f;
     public float delayBetweenAttacks = 1.0f;
 
+    public AudioClip[] audioClips;
+    public AudioSource audioSource;
+    public float audioCountDownTimer = 0f;
     
     void Start()
     {
@@ -49,8 +52,22 @@ public class EnemyManager : MonoBehaviour
         {
             enemyAnimator.SetBool("isRunning", false);
         }
+
+        // ¿Cuanto tarda en hacer ruido el Zombie?
+        if (audioCountDownTimer <= 2)
+        {
+            if (health > 0)
+            {
+                audioSource.clip = audioClips[Random.Range(0, audioClips.Length)];
+                audioSource.Play();
+                audioCountDownTimer = Random.Range(2, 8);
+            }
+        }
+        else 
+        {
+            audioCountDownTimer -= Time.deltaTime;
+        }
         
-        // Para impedir que el Zombie golpee muchas veces seguidas, se ha aplicado un segundo de delay entre ataques.
         
 
     }
@@ -99,7 +116,7 @@ public class EnemyManager : MonoBehaviour
         if (health <= 0)
         {
             //Destroy(gameObject);
-            //Destroy(gameObject,10f);
+            Destroy(gameObject,30f);
             Destroy(GetComponent<BoxCollider>());
             Destroy(GetComponent<NavMeshAgent>());
             Destroy(GetComponent<EnemyManager>());

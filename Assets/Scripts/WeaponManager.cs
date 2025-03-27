@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
@@ -16,6 +17,8 @@ public class WeaponManager : MonoBehaviour
     public ParticleSystem flashParticleSystem;
     public GameObject bloodParticleSystem;
     public GameObject impactParticleSystem;
+    
+    public AudioSource audioSource;
 
     void Update()
     {
@@ -48,6 +51,7 @@ public class WeaponManager : MonoBehaviour
     private void Shoot()
     {
         playerAnimator.SetBool("isShooting", true);
+        audioSource.Play();
         flashParticleSystem.Play();
         RaycastHit hit;
         if (Physics.Raycast(playerCam.transform.position, transform.forward, out hit, range))
