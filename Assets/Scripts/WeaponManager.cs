@@ -11,7 +11,6 @@ public class WeaponManager : MonoBehaviour
     public float fireRate = 0.5f;
     public float fireRateTimer = 0.0f;
     
-    public GameManager gameManager;
     public Animator playerAnimator;
 
     public ParticleSystem flashParticleSystem;
@@ -22,29 +21,34 @@ public class WeaponManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1") && gameManager.paused == false && gameManager.gameOver == false)
+        if (!GameManager.sharedInstance.paused && !GameManager.sharedInstance.paused)
         {
-            Shoot();
-        }
-        if (Input.GetButton("Fire1") && gameManager.paused == false && gameManager.gameOver == false)
-        {
-            fireRateTimer += Time.deltaTime;
-            if(fireRateTimer >= fireRate)
+            if (Input.GetButtonDown("Fire1"))
             {
-                //Debug.Log("Pium!");
                 Shoot();
+            }
+            if (Input.GetButton("Fire1"))
+            {
+                fireRateTimer += Time.deltaTime;
+                if(fireRateTimer >= fireRate)
+                {
+                    //Debug.Log("Pium!");
+                    Shoot();
+                    fireRateTimer = 0;
+                }
+            }
+            else
+            {
                 fireRateTimer = 0;
             }
-        }
-        else
-        {
-            fireRateTimer = 0;
+            
+            if (playerAnimator.GetBool("isShooting"))
+            {
+                playerAnimator.SetBool("isShooting", false);
+            }
         }
         
-        if (playerAnimator.GetBool("isShooting"))
-        {
-            playerAnimator.SetBool("isShooting", false);
-        }
+        
 
     }
 

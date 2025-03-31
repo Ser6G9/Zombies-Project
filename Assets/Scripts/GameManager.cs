@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,11 +17,25 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI enemiesText;
     public TextMeshProUGUI roundsText;
     public GameObject pausePanel;
-    public bool paused = false;
     public GameObject gameOverPanel;
+    
+    public bool paused = false;
     public bool gameOver = false;
+    
+    public static GameManager sharedInstance;
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        if (sharedInstance == null)
+        {
+            sharedInstance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 2)
