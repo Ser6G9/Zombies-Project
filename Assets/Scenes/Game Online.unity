@@ -353,6 +353,7 @@ MonoBehaviour:
   pausePanel: {fileID: 855002632}
   paused: 0
   gameOverPanel: {fileID: 1450446377}
+  gameOver: 0
 --- !u!4 &86639412
 Transform:
   m_ObjectHideFlags: 0

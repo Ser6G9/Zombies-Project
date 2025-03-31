@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject pausePanel;
     public bool paused = false;
     public GameObject gameOverPanel;
+    public bool gameOver = false;
 
     // Start is called before the first frame update
     void Start()
@@ -40,10 +41,10 @@ public class GameManager : MonoBehaviour
                 roundsText.text = "Oleada "+round;
             }
                     
-            if (Input.GetKeyDown(KeyCode.Escape) && !paused)
+            if (Input.GetKeyDown(KeyCode.Escape) && !paused && !gameOver)
             {
                 Pause();
-            } else if (Input.GetKeyDown(KeyCode.Escape) && paused)
+            } else if (Input.GetKeyDown(KeyCode.Escape) && paused && !gameOver)
             {
                 Resume();
             }
@@ -106,6 +107,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        gameOver = true;
         gameOverPanel.SetActive(true);
         Time.timeScale = 0;
         PlayerCanPlay(false);

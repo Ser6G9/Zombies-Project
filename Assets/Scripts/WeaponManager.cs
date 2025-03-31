@@ -22,11 +22,11 @@ public class WeaponManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1") && gameManager.paused == false)
+        if (Input.GetButtonDown("Fire1") && gameManager.paused == false && gameManager.gameOver == false)
         {
             Shoot();
         }
-        if (Input.GetButton("Fire1") && gameManager.paused == false)
+        if (Input.GetButton("Fire1") && gameManager.paused == false && gameManager.gameOver == false)
         {
             fireRateTimer += Time.deltaTime;
             if(fireRateTimer >= fireRate)

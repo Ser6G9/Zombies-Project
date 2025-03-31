@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
 
+        // Correr
         if (Input.GetButton("Fire3"))
         {
             speed = runSpeed;
