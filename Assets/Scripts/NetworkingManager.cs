@@ -31,12 +31,12 @@ public class NetworkingManager : MonoBehaviourPunCallbacks
 
     public void FindMatch()
     {
+        Debug.Log("Buscando sala...");
         PhotonNetwork.JoinRandomRoom();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        //base.OnJoinRandomFailed(returnCode, message);
         MakeRoom();
     }
 
@@ -45,13 +45,12 @@ public class NetworkingManager : MonoBehaviourPunCallbacks
         int randomRoomName = Random.Range(0, 5000);
         RoomOptions roomOptions = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 6, PublishUserId = true};
         PhotonNetwork.CreateRoom($"RoomName_{randomRoomName}", roomOptions);
-        Debug.Log(PhotonNetwork.CurrentRoom.Name);
+        Debug.Log($"Sala creada: {randomRoomName}");
     }
 
     public override void OnJoinedRoom()
     {
-        //base.OnJoinedRoom();
-        PhotonNetwork.LoadLevel(2);
+        PhotonNetwork.LoadLevel(3);
     }
 
 

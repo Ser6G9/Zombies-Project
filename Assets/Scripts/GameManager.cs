@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 public class GameManager : MonoBehaviour
 {
     public int enemiesAlive;
-    public int round = 0;
+    public int round = 1;
     public GameObject player;
 
     public GameObject[] spawnPoints;
@@ -38,19 +38,17 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 2)
-        {
-            pausePanel.SetActive(false);
-            gameOverPanel.SetActive(false);
-            NextWave(round);
-        }
+        pausePanel.SetActive(false);
+        gameOverPanel.SetActive(false);
+        Time.timeScale = 1;
+        NextWave(round);
+        
+        spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 2)
-        {
             if (roundsText != null)
             {
                 enemiesText.text = "Enemigos restantes: "+enemiesAlive;
@@ -70,8 +68,6 @@ public class GameManager : MonoBehaviour
                 round++;
                 NextWave(round);
             }
-        }
-        
     }
     
     public void NextWave(int round)
@@ -96,7 +92,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 
     public void BackToMainMenu()
