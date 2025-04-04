@@ -11,7 +11,7 @@ public class NetworkingManager : MonoBehaviourPunCallbacks
     void Start()
     {
         Debug.Log("Connexió a un servidor");
-        // Connexió amb el servidor
+        // Connexión con el servidor
         PhotonNetwork.ConnectUsingSettings();
         
         multiplayerButton.interactable = false;
@@ -19,13 +19,13 @@ public class NetworkingManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Unir-mos a un Lobby");
+        Debug.Log("Unirse a un Lobby");
         PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby()
     {
-        Debug.Log("Estam apunt per jugar!");
+        Debug.Log("A punto para jugar!");
         multiplayerButton.interactable = true;
     }
 

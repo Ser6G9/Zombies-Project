@@ -23,7 +23,6 @@ public class MouseLook : MonoBehaviour
         rotation.x = Mathf.Clamp(rotation.x, -35f, 35f);
         
         transform.eulerAngles = new Vector2(0, rotation.y) * lookSpeed;
-        //Camera.main.transform.localRotation = Quaternion.Euler(-rotation.x * lookSpeed, 0f, 0f);
         
         player.transform.rotation = Quaternion.Euler(-rotation.x * lookSpeed, rotation.y * lookSpeed, 0f);
        

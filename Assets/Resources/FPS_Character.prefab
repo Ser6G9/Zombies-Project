@@ -6061,7 +6061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemiesAlive: 0
-  round: 1
+  round: 0
   player: {fileID: 8252128915441237849}
   spawnPoints: []
   enemysPrefabs:
