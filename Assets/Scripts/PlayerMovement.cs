@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     // GroundCheck
     public bool isGrounded;
     public Transform groundCheck;
-    public float groundDistance = 0.4f; //Umbral de distància enterra
+    public float groundDistance = 0.4f; //Umbral de distància al suelo
     public LayerMask groundMask;
 
 
@@ -28,13 +28,13 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move* speed * Time.deltaTime);
         
-        // Gravetat
-        // Formula de velocitat = acceleració * temps^2
+        // Gravedad
+        // Formula de velocidad = acceleración * tiempo^2
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
         //print(velocity.y);
         
-        // Mirar si estic tocant el terra
+        // Mirar si estoy tocando el suelo
         isGrounded = Physics.CheckSphere(groundCheck.position,groundDistance,groundMask);
 
         if (isGrounded && velocity.y < 0)

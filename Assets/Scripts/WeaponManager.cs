@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-    public GameObject playerCam; // Fa referència a la càmera del jugador FPS
-    public float range; // Fins on volem que arribin els tirs
+    public GameObject playerCam; // Referencia a la camara del jugador FPS
+    public float range; // Distancia de los disparos
     public float damage = 25f;
     public float fireRate = 0.5f;
     public float fireRateTimer = 0.0f;
@@ -23,16 +23,23 @@ public class WeaponManager : MonoBehaviour
     {
         if (!GameManager.sharedInstance.paused && !GameManager.sharedInstance.paused)
         {
+            // Animación del FPS
+            if (playerAnimator.GetBool("isShooting"))
+            {
+                playerAnimator.SetBool("isShooting", false);
+            }
+            
+            // Disparo único
             if (Input.GetButtonDown("Fire1"))
             {
                 Shoot();
             }
+            // Disparo automático (mantener pulsado)
             if (Input.GetButton("Fire1"))
             {
                 fireRateTimer += Time.deltaTime;
                 if(fireRateTimer >= fireRate)
                 {
-                    //Debug.Log("Pium!");
                     Shoot();
                     fireRateTimer = 0;
                 }
@@ -41,15 +48,7 @@ public class WeaponManager : MonoBehaviour
             {
                 fireRateTimer = 0;
             }
-            
-            if (playerAnimator.GetBool("isShooting"))
-            {
-                playerAnimator.SetBool("isShooting", false);
-            }
         }
-        
-        
-
     }
 
     private void Shoot()
@@ -57,25 +56,25 @@ public class WeaponManager : MonoBehaviour
         playerAnimator.SetBool("isShooting", true);
         audioSource.Play();
         flashParticleSystem.Play();
+        
         RaycastHit hit;
         if (Physics.Raycast(playerCam.transform.position, transform.forward, out hit, range))
         {
-            //Debug.Log("Tocat!");
-            // Si no hem ferit a un Zombie, la component EnemyManager valdrà null, però sinò prendrà el valor de la component del Zombie que hem ferit.
+            // Se detecta si se acierta a un Zombie
             EnemyManager enemyManager = hit.transform.GetComponent<EnemyManager>();
             if (enemyManager != null)
             {
-                // generam una instància del particle system, en el punt on hem ferit al Zombie,
-                // i fent que l'animació sempre estigui rotada en direcció al tret
+                // se genera una instacia de las particulas de sangre en la posición donde se acertó al zombie.
                 GameObject particleInstance = Instantiate(bloodParticleSystem, hit.point, Quaternion.LookRotation(hit.normal));
-                // Feim que la instància sigui filla del Zombie al qual hem ferit
+                // Esta instancia es hija del objeto Zombie
                 particleInstance.transform.parent = hit.transform;
-                // Recordau que aquesta animació te seleccionat per Stop Action: "Destroy" ja que sinó es crearien infinites instàncies
 
+                // Se le aplica el daño al Zombie
                 enemyManager.Hit(damage);
             }
             else
             {
+                // Si no le da a un Zombie, instancia las particulas predeterminadas de impacto
                 GameObject particleInstance = Instantiate(impactParticleSystem, hit.point, Quaternion.LookRotation(hit.normal));
                 particleInstance.transform.parent = hit.transform;
             }

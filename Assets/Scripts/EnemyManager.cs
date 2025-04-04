@@ -16,7 +16,7 @@ public class EnemyManager : MonoBehaviour
     public GameManager gameManager;
     public Slider healthBar;
     
-    // Animacio i millora del xoc
+    // Animación y delay de ataque
     public bool playerInReach = false;
     public float attackDelayTimer = 0f;
     public float howMuchEarlierStartAttackAnimation = 2f;
@@ -28,9 +28,7 @@ public class EnemyManager : MonoBehaviour
     
     void Start()
     {
-        // Aquest cop, no arrossegarem la variable GameObject del FPS
-        // des de l'inspector, sinò que l'assginarem des del codi
-        // En concret volem cercar al jugador principal!!
+        // Se asigna al jugador
         player = GameObject.FindGameObjectWithTag("Player");
         healthBar.maxValue = health;
         healthBar.value = health;
@@ -39,11 +37,10 @@ public class EnemyManager : MonoBehaviour
 
     void Update()
     {
-        // Accedim al component NavMeshComponent, el qual té un element que es destination de tipus Vector3
-        // Li podem assignar la posició del jugador, que el tenim a la variable player gràcies al seu tranform
+        // Se asigna al Player como el destino objetivo
         GetComponent<NavMeshAgent>().destination = player.transform.position;
     
-        // En primer lloc hem d'accedir a la velocitat del Zombiem, des del component NavMeshAgent
+        // Animación de movimiento
         if (GetComponent<NavMeshAgent>().velocity.magnitude > 1)
         {
             enemyAnimator.SetBool("isRunning", true);
@@ -67,17 +64,14 @@ public class EnemyManager : MonoBehaviour
         {
             audioCountDownTimer -= Time.deltaTime;
         }
-        
-        
-
     }
 
-    // Detectar la col·lisió
+    // Detectar colisión con jugador
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject == player && canAtack)
         {
-            //Debug.Log("El FPS m'ataca!!");
+            //Debug.Log("Mordisco!!");
             //player.GetComponent<PlayerManager>().Hit(damage);
             playerInReach = true;
         }

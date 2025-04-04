@@ -41,33 +41,35 @@ public class GameManager : MonoBehaviour
         pausePanel.SetActive(false);
         gameOverPanel.SetActive(false);
         Time.timeScale = 1;
-        NextWave(round);
         
+        // Instanciar los spwnPoints de enemigos:
         spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
     }
 
-    // Update is called once per frame
     void Update()
     {
-            if (roundsText != null)
-            {
-                enemiesText.text = "Enemigos restantes: "+enemiesAlive;
-                roundsText.text = "Oleada "+round;
-            }
-                    
-            if (Input.GetKeyDown(KeyCode.Escape) && !paused && !gameOver)
-            {
-                Pause();
-            } else if (Input.GetKeyDown(KeyCode.Escape) && paused && !gameOver)
-            {
-                Resume();
-            }
+        // Actualizar HUD
+        if (roundsText != null)
+        { 
+            enemiesText.text = "Enemigos restantes: "+enemiesAlive; 
+            roundsText.text = "Oleada "+round;
+        }
+                  
+        // Pause
+        if (Input.GetKeyDown(KeyCode.Escape) && !paused && !gameOver)
+        {
+            Pause();
+        } else if (Input.GetKeyDown(KeyCode.Escape) && paused && !gameOver)
+        {
+            Resume();
+        }
             
-            if (enemiesAlive <= 0)
-            {
-                round++;
-                NextWave(round);
-            }
+        // Siguiente ronda si no quedan enemigos
+        if (enemiesAlive <= 0)
+        {
+            round++;
+            NextWave(round);
+        }
     }
     
     public void NextWave(int round)
@@ -83,12 +85,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Como tengo más de un tipo de Zombie, con este método hago que a instancia de enemigos sea uno de los tipos de Zombie aleatorios cada vez.
     public GameObject SetRandomEnemy()
     {
         int randPos = Random.Range(0, enemysPrefabs.Length);
         return enemysPrefabs[randPos];
     }
     
+    // Gestion de menús:
     public void RestartGame()
     {
         Time.timeScale = 1;

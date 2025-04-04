@@ -10,7 +10,7 @@ public class PlayerManager : MonoBehaviour
     public TextMeshProUGUI healthText;
     
     public GameObject playerCamera;
-    // Variable per controlar el temps de vibració de la càmera
+    // Controlar el tiempo de vibración de la camara
     private float shakeTime = 1f;
     private float shakeDuration = 0.5f;
     private Quaternion playerCameraOriginalRotation;
