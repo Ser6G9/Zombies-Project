@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -18,10 +19,19 @@ public class WeaponManager : MonoBehaviour
     public GameObject impactParticleSystem;
     
     public AudioSource audioSource;
+    
+    public PhotonView photonView;
 
+    public GameManager gameManager;
+    
     void Update()
     {
-        if (!GameManager.sharedInstance.paused && !GameManager.sharedInstance.paused)
+        if (PhotonNetwork.InRoom && !photonView.IsMine)
+        {
+            return;
+        }
+        
+        if (!gameManager.paused && !gameManager.gameOver)
         {
             // Animación del FPS
             if (playerAnimator.GetBool("isShooting"))

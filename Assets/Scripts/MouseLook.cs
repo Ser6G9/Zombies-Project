@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class MouseLook : MonoBehaviour
@@ -8,9 +9,16 @@ public class MouseLook : MonoBehaviour
     private Vector2 rotation = Vector2.zero;
     
     public GameObject player;
+    
+    public PhotonView photonView;
 
     void Update()
     {
+        if (PhotonNetwork.InRoom && !photonView.IsMine)
+        {
+            return;
+        }
+        
         Cursor.lockState = CursorLockMode.Locked; // Bloquea el cursor en el centro de la pantalla
         Look();
     }

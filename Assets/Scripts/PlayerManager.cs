@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,8 @@ public class PlayerManager : MonoBehaviour
     private Quaternion playerCameraOriginalRotation;
 
     public CanvasGroup hitPanel;
+    
+    public PhotonView photonView;
 
     void Start()
     {
@@ -24,6 +27,12 @@ public class PlayerManager : MonoBehaviour
 
     void LateUpdate()
     {
+        if (PhotonNetwork.InRoom && !photonView.IsMine)
+        {
+            playerCamera.gameObject.SetActive(false);
+            return;
+        }
+        
         if(shakeTime < shakeDuration)
         {
             shakeTime += Time.deltaTime;

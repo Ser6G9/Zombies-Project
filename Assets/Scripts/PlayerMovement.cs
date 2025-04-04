@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -19,9 +20,15 @@ public class PlayerMovement : MonoBehaviour
     public float groundDistance = 0.4f; //Umbral de distància al suelo
     public LayerMask groundMask;
 
+    public PhotonView photonView;
 
     void Update()
     {
+        if (PhotonNetwork.InRoom && !photonView.IsMine)
+        {
+            return;
+        }
+        
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
