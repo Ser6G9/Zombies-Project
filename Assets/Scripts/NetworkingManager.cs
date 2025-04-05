@@ -1,3 +1,4 @@
+using System.Collections;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -10,11 +11,24 @@ public class NetworkingManager : MonoBehaviourPunCallbacks
     
     void Start()
     {
-        Debug.Log("Connexió a un servidor");
+        if (PhotonNetwork.IsConnected)
+        {
+            StartCoroutine(DisconnectPlayer());
+        }
+        Debug.Log("Conexión a un servidor");
         // Connexión con el servidor
         PhotonNetwork.ConnectUsingSettings();
         
         multiplayerButton.interactable = false;
+    }
+
+    IEnumerator DisconnectPlayer()
+    {
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.Disconnect();
+        // Esperar hasta que se desconecte el player
+        while (PhotonNetwork.IsConnected)
+            yield return null;
     }
 
     public override void OnConnectedToMaster()
@@ -53,10 +67,9 @@ public class NetworkingManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel(3);
     }
 
-
-    // Update is called once per frame
-    void Update()
+    public void LoadMainMenu()
     {
-        
+        PhotonNetwork.Disconnect();
+        SceneManager.LoadScene(0);
     }
 }

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class WeaponManager : MonoBehaviour
+public class WeaponManager : MonoBehaviour, IOnEventCallback
 {
     public GameObject playerCam; // Referencia a la camara del jugador FPS
     public float range; // Distancia de los disparos
@@ -23,6 +25,8 @@ public class WeaponManager : MonoBehaviour
     public PhotonView photonView;
 
     public GameManager gameManager;
+
+    private const byte VFX_EVENT = 0;
     
     void Update()
     {
@@ -65,7 +69,14 @@ public class WeaponManager : MonoBehaviour
     {
         if (PhotonNetwork.InRoom)
         {
-            photonView.RPC("WeaponShootSFX", RpcTarget.All, photonView.ViewID);
+            int viewID = photonView.ViewID;
+            
+            RaiseEventOptions raiseOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            SendOptions sendOptions = new SendOptions{ Reliability = true };
+            
+            PhotonNetwork.RaiseEvent(VFX_EVENT, viewID, raiseOptions, sendOptions);
+            
+            //photonView.RPC("WeaponShootSFX", RpcTarget.All, photonView.ViewID);
         }
         else
         {
@@ -106,5 +117,25 @@ public class WeaponManager : MonoBehaviour
             audioSource.Play();
             flashParticleSystem.Play();
         }
+    }
+
+    void IOnEventCallback.OnEvent(EventData photonEvent)
+    {
+        if (photonEvent.Code == VFX_EVENT)
+        {
+            Debug.Log("EventReceived");
+            int viewID = (int)photonEvent.CustomData;
+            ShootVFX(viewID);
+        }
+    }
+
+    private void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+    
+    private void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
     }
 }
