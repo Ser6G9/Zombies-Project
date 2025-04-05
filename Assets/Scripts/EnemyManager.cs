@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,10 +27,14 @@ public class EnemyManager : MonoBehaviour
     public AudioSource audioSource;
     public float audioCountDownTimer = 0f;
     
+    private GameObject[] playersInScene;
+    
+    public PhotonView photonView;
+    
     void Start()
     {
         // Se asigna al jugador
-        player = GameObject.FindGameObjectWithTag("Player");
+        playersInScene = GameObject.FindGameObjectsWithTag("Player");
         healthBar.maxValue = health;
         healthBar.value = health;
     }
@@ -37,19 +42,6 @@ public class EnemyManager : MonoBehaviour
 
     void Update()
     {
-        // Se asigna al Player como el destino objetivo
-        GetComponent<NavMeshAgent>().destination = player.transform.position;
-    
-        // Animación de movimiento
-        if (GetComponent<NavMeshAgent>().velocity.magnitude > 1)
-        {
-            enemyAnimator.SetBool("isRunning", true);
-        }
-        else
-        {
-            enemyAnimator.SetBool("isRunning", false);
-        }
-
         // ¿Cuanto tarda en hacer ruido el Zombie?
         if (audioCountDownTimer <= 2)
         {
@@ -64,6 +56,32 @@ public class EnemyManager : MonoBehaviour
         {
             audioCountDownTimer -= Time.deltaTime;
         }
+
+        if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+        
+        GetClosestPlayer();
+        if(player != null)
+        {
+            // Se asigna al Player como el destino objetivo
+            GetComponent<NavMeshAgent>().destination = player.transform.position;
+    
+            healthBar.transform.LookAt(player.transform);
+        }
+        
+        // Animación de movimiento
+        if (GetComponent<NavMeshAgent>().velocity.magnitude > 1)
+        {
+            enemyAnimator.SetBool("isRunning", true);
+        }
+        else
+        {
+            enemyAnimator.SetBool("isRunning", false);
+        }
+
+        
     }
 
     // Detectar colisión con jugador
@@ -105,21 +123,58 @@ public class EnemyManager : MonoBehaviour
     
     public void Hit(float damage)
     {
-        health -= damage;
-        healthBar.value = health;
-        if (health <= 0)
+        if (PhotonNetwork.InRoom)
         {
-            //Destroy(gameObject);
-            Destroy(gameObject,30f);
-            Destroy(GetComponent<BoxCollider>());
-            Destroy(GetComponent<NavMeshAgent>());
-            Destroy(GetComponent<EnemyManager>());
-            Destroy(GetComponent<CapsuleCollider>());
-            enemyAnimator.SetTrigger("isDead");
-
-            gameManager.enemiesAlive--;
+            photonView.RPC("TakeDamage", RpcTarget.All, damage, photonView.ViewID);
+        }
+        else
+        {
+            TakeDamage(damage, photonView.ViewID);
         }
     }
 
-    
+    [PunRPC]
+    public void TakeDamage(float damage, int viewID)
+    {
+        if (photonView.ViewID == viewID)
+        {
+            health -= damage;
+            healthBar.value = health;
+            if (health <= 0)
+            {
+                //Destroy(gameObject);
+                Destroy(gameObject,30f);
+                Destroy(GetComponent<BoxCollider>());
+                Destroy(GetComponent<NavMeshAgent>());
+                Destroy(GetComponent<EnemyManager>());
+                Destroy(GetComponent<CapsuleCollider>());
+                enemyAnimator.SetTrigger("isDead");
+
+                if (!PhotonNetwork.InRoom || (PhotonNetwork.IsMasterClient && photonView.IsMine))
+                {
+                    gameManager.enemiesAlive--;
+                }
+                
+            }
+        }
+    }
+
+    private void GetClosestPlayer()
+    {
+        float minDistance = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+
+        foreach (GameObject p in playersInScene)
+        {
+            if (p != null)
+            {
+                float distance = Vector3.Distance(p.transform.position, currentPosition);
+                if (distance < minDistance)
+                {
+                    player = p;
+                    minDistance = distance;
+                }
+            }
+        }
+    }
 }

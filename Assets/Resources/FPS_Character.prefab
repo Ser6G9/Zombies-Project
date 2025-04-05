@@ -6299,9 +6299,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   healthText: {fileID: 607763273202616017}
+  gameManager: {fileID: 7552419905782689881}
   playerCamera: {fileID: 3816982588413621887}
   hitPanel: {fileID: 607763274272237728}
   photonView: {fileID: 3456147822730985611}
+  activeWeapon: {fileID: 5221935599343544535}
 --- !u!114 &6204964487859574714
 MonoBehaviour:
   m_ObjectHideFlags: 0

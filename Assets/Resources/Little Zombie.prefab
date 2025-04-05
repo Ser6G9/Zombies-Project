@@ -923,6 +923,7 @@ GameObject:
   - component: {fileID: 6173366470576245378}
   - component: {fileID: 7372069079701417554}
   - component: {fileID: -4182179778096647895}
+  - component: {fileID: 1358013718883161149}
   m_Layer: 0
   m_Name: Little Zombie
   m_TagString: Untagged
@@ -1007,6 +1008,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 119480eacbb7d944f9af8d37bb87a35e, type: 3}
   audioSource: {fileID: 7372069079701417554}
   audioCountDownTimer: 0
+  photonView: {fileID: -4182179778096647895}
 --- !u!195 &6173366470576245378
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1143,10 +1145,28 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 1358013718883161149}
+  - {fileID: 4920106216683275794}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1358013718883161149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3593327308099812814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1
 --- !u!1 &3980056894860285800
 GameObject:
   m_ObjectHideFlags: 0
@@ -2419,6 +2439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6657590788105131598}
   - component: {fileID: 4404373066335046630}
+  - component: {fileID: 4920106216683275794}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -2464,6 +2485,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &4920106216683275794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8583451452808191881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 1
+    Name: isRunning
+  - Type: 9
+    SynchronizeType: 1
+    Name: isAttacking
+  - Type: 9
+    SynchronizeType: 1
+    Name: isDead
+  m_SynchronizeLayers:
+  - SynchronizeType: 1
+    LayerIndex: 0
 --- !u!1 &8610787031890347469
 GameObject:
   m_ObjectHideFlags: 0

@@ -63,9 +63,16 @@ public class WeaponManager : MonoBehaviour
 
     private void Shoot()
     {
+        if (PhotonNetwork.InRoom)
+        {
+            photonView.RPC("WeaponShootSFX", RpcTarget.All, photonView.ViewID);
+        }
+        else
+        {
+            ShootVFX(photonView.ViewID);
+        }
+        
         playerAnimator.SetBool("isShooting", true);
-        audioSource.Play();
-        flashParticleSystem.Play();
         
         RaycastHit hit;
         if (Physics.Raycast(playerCam.transform.position, transform.forward, out hit, range))
@@ -90,5 +97,14 @@ public class WeaponManager : MonoBehaviour
             }
         }
 
+    }
+
+    public void ShootVFX(int viewID)
+    {
+        if (photonView.ViewID == viewID)
+        {
+            audioSource.Play();
+            flashParticleSystem.Play();
+        }
     }
 }

@@ -5956,6 +5956,7 @@ GameObject:
   - component: {fileID: 8785047816676726542}
   - component: {fileID: 4021511516964660676}
   - component: {fileID: -8354812344080617071}
+  - component: {fileID: 6060086938587771810}
   m_Layer: 0
   m_Name: FPS_Character
   m_TagString: Player
@@ -6014,6 +6015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lookSpeed: 2.7
   player: {fileID: 3443018097164041534}
+  photonView: {fileID: 0}
 --- !u!114 &7189606239298744178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6028,8 +6030,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   healthText: {fileID: 0}
+  gameManager: {fileID: 0}
   playerCamera: {fileID: 1949514735823124170}
   hitPanel: {fileID: 0}
+  photonView: {fileID: 6060086938587771810}
+  activeWeapon: {fileID: 7462111504427935842}
 --- !u!114 &8785047816676726543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6054,6 +6059,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  photonView: {fileID: 0}
 --- !u!54 &8785047816676726541
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6115,6 +6121,28 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &6060086938587771810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6733945378334605292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &6830983370849270597
 GameObject:
   m_ObjectHideFlags: 0
@@ -6316,7 +6344,6 @@ MonoBehaviour:
   damage: 25
   fireRate: 0.15
   fireRateTimer: 0
-  gameManager: {fileID: 0}
   playerAnimator: {fileID: 8785047816676726546}
   flashParticleSystem: {fileID: 5472005672936169735}
   bloodParticleSystem: {fileID: 5972266483897041152, guid: 0c62f23191017d94f94f1d9fddd75469,
@@ -6324,6 +6351,8 @@ MonoBehaviour:
   impactParticleSystem: {fileID: 5972266483897041152, guid: 1aa3222899074e84a809af3a55bfd933,
     type: 3}
   audioSource: {fileID: 5573975064974047658}
+  photonView: {fileID: 6060086938587771810}
+  gameManager: {fileID: 0}
 --- !u!82 &5573975064974047658
 AudioSource:
   m_ObjectHideFlags: 0

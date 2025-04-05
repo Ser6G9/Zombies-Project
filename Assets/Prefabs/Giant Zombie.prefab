@@ -595,6 +595,7 @@ GameObject:
   - component: {fileID: 4616550959885530134}
   - component: {fileID: 7764683519225746830}
   - component: {fileID: -3548915392999144565}
+  - component: {fileID: 520534516257495442}
   m_Layer: 8
   m_Name: Giant Zombie
   m_TagString: Untagged
@@ -665,6 +666,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 119480eacbb7d944f9af8d37bb87a35e, type: 3}
   audioSource: {fileID: -3548915392999144565}
   audioCountDownTimer: 0
+  photonView: {fileID: 520534516257495442}
 --- !u!195 &4616550959885530134
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -796,6 +798,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &520534516257495442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2622058832453026650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2897426182415038919
 GameObject:
   m_ObjectHideFlags: 0

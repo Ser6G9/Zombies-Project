@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
     public float health = 100.0f;
     public TextMeshProUGUI healthText;
     
+    public GameManager gameManager;
     public GameObject playerCamera;
     // Controlar el tiempo de vibración de la camara
     private float shakeTime = 1f;
@@ -20,9 +21,14 @@ public class PlayerManager : MonoBehaviour
     
     public PhotonView photonView;
 
+    public GameObject activeWeapon;
+    
     void Start()
     {
-        
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager>();
+        }
     }
 
     void LateUpdate()
@@ -47,21 +53,36 @@ public class PlayerManager : MonoBehaviour
 
     public void Hit(float damage)
     {
-        hitPanel.alpha = 1;
-        health -= damage;
-        
-        if (health <= 0)
+        if (PhotonNetwork.InRoom)
         {
-            health = 0;
-            GameManager gameManager = GameObject.FindObjectOfType<GameManager>();
-            gameManager.GameOver();
+            photonView.RPC("PlayerTakeDamage", RpcTarget.All, damage, photonView.ViewID);
         }
         else
         {
-            shakeTime = 0;
+            PlayerTakeDamage(damage,photonView.ViewID);
         }
+    }
 
-        healthText.text = health.ToString();
+    [PunRPC]
+    public void PlayerTakeDamage(float damage, int viewID)
+    {
+        if (photonView.ViewID == viewID)
+        {
+            health -= damage;
+        
+            if (health <= 0)
+            {
+                health = 0;
+                gameManager.GameOver();
+            }
+            else
+            {
+                shakeTime = 0;
+                hitPanel.alpha = 1;
+            }
+            
+            healthText.text = $"{health} HP";
+        }
     }
     
     public void CameraShake()
@@ -69,4 +90,9 @@ public class PlayerManager : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(Random.Range(-2f, 2f), 0, 0);
     }
 
+    [PunRPC]
+    public void WeaponShootSFX(int viewID)
+    {
+        activeWeapon.GetComponent<WeaponManager>().ShootVFX(viewID);
+    }
 }

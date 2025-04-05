@@ -31,7 +31,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         pausePanel.SetActive(false);
         gameOverPanel.SetActive(false);
-        Time.timeScale = 1;
+        if (!PhotonNetwork.InRoom)
+        {
+            //Parar el tiempo
+            Time.timeScale = 1;
+        }
         
         // Instanciar los spwnPoints de enemigos:
         spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
@@ -46,17 +50,18 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 round++;
                 NextWave(round);
-                if (PhotonNetwork.InRoom)
-                {
-                    Hashtable hash = new Hashtable();
-                    hash.Add("currentRound", round);
-                    hash.Add("enemiesAlive", enemiesAlive);
-                    PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-                }
-                else
-                {
-                    UpdateHUDinfo(round,enemiesAlive);
-                }
+            }
+            
+            if (PhotonNetwork.InRoom)
+            {
+                Hashtable hash = new Hashtable();
+                hash.Add("currentRound", round);
+                hash.Add("enemiesAlive", enemiesAlive);
+                PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+            }
+            else
+            {
+                UpdateHUDinfo(round,enemiesAlive);
             }
             //UpdateHUDinfo(round,enemiesAlive);
         }
@@ -93,11 +98,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void UpdateHUDinfo(int round, int enemiesAlive)
+    public void UpdateHUDinfo(int rounds, int enemies)
     {
         // Actualizar HUD
-        enemiesText.text = "Enemigos restantes: "+enemiesAlive; 
-        roundsText.text = "Oleada "+round;
+        enemiesText.text = "Enemigos restantes: "+enemies; 
+        roundsText.text = "Oleada "+rounds;
     }
 
     // Como tengo más de un tipo de Zombie, con este método hago que a instancia de enemigos sea uno de los tipos de Zombie aleatorios cada vez.
@@ -110,21 +115,42 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Gestion de menús:
     public void RestartGame()
     {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(2);
+        if (!PhotonNetwork.InRoom)
+        {
+            //reanudar el tiempo
+            Time.timeScale = 1;
+            SceneManager.LoadScene(2);
+        }
+        else
+        {
+            SceneManager.LoadScene(3);
+        }
+        
     }
 
     public void BackToMainMenu()
     {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(0);
+        if (!PhotonNetwork.InRoom)
+        {
+            //reanudar el tiempo
+            Time.timeScale = 1;
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 
     public void Pause()
     {
         paused = true;
         pausePanel.SetActive(true);
-        Time.timeScale = 0;
+        if (!PhotonNetwork.InRoom)
+        {
+            //Parar el tiempo
+            Time.timeScale = 0;
+        }
         PlayerCanPlay(false);
     }
     
@@ -132,7 +158,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         paused = false;
         pausePanel.SetActive(false);
-        Time.timeScale = 1;
+        if (!PhotonNetwork.InRoom)
+        {
+            //reanudar el tiempo
+            Time.timeScale = 1;
+        }
         PlayerCanPlay(true);
     }
 
@@ -140,7 +170,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         gameOver = true;
         gameOverPanel.SetActive(true);
-        Time.timeScale = 0;
+
+        if (!PhotonNetwork.InRoom)
+        {
+            //Parar el tiempo
+            Time.timeScale = 0;
+        }
+        
         PlayerCanPlay(false);
     }
 
@@ -155,16 +191,13 @@ public class GameManager : MonoBehaviourPunCallbacks
             Cursor.lockState = CursorLockMode.None;
         }
         player.GetComponent<MouseLook>().enabled = state;
+        player.GetComponent<PlayerMovement>().enabled = state;
     }
-
-    public void ExitGame()
-    {
-        Application.Quit();
-    }
+    
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if (!photonView.IsMine)
+        if (photonView.IsMine)
         {
             if (changedProps["currentRound"] != null && changedProps["enemiesAlive"] != null)
             {
