@@ -920,6 +920,7 @@ GameObject:
   - component: {fileID: 6173366470576245377}
   - component: {fileID: 6173366470576245376}
   - component: {fileID: 6173366470576245380}
+  - component: {fileID: 7540377428755826528}
   - component: {fileID: 6173366470576245378}
   - component: {fileID: -7303592257591712333}
   - component: {fileID: 6299719703040835098}
@@ -990,17 +991,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca70fb094e39534a88a3775e5a04699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateMachine: {fileID: 0}
   enemyAnimator: {fileID: 4404373066335046630}
   player: {fileID: 0}
   damage: 15
+  chaseSpeed: 4
+  walkSpeed: 1
   canAtack: 1
   health: 100
   gameManager: {fileID: 0}
   healthBar: {fileID: 810625431545731520}
+  chaseDistance: 20
   playerInReach: 0
   attackDelayTimer: 0
-  howMuchEarlierStartAttackAnimation: 5
-  delayBetweenAttacks: 0.9
+  howMuchEarlierStartAttackAnimation: 4
+  delayBetweenAttacks: 0.8
+  attackRange: 2
   audioClips:
   - {fileID: 8300000, guid: 4c285a791c630e7478685ebcf5a3cc19, type: 3}
   - {fileID: 8300000, guid: 110d2c2db57f0794e8521485d7c53f36, type: 3}
@@ -1008,6 +1014,18 @@ MonoBehaviour:
   audioSource: {fileID: -7303592257591712333}
   audioCountDownTimer: 0
   photonView: {fileID: 6299719703040835098}
+--- !u!114 &7540377428755826528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3593327308099812814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bcb71cdb7214947bfc871fb99186b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &6173366470576245378
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2455,7 +2473,7 @@ Animator:
   m_GameObject: {fileID: 8583451452808191881}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 85b52cf4f9fca124193e6fa191597e7b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 33ac36f45615535469e37957b0739bf9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

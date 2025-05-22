@@ -9,19 +9,25 @@ using UnityEngine.UI;
 
 public class EnemyManager : MonoBehaviour
 {
+    public ZombieStateMachine stateMachine;
+    
     public Animator enemyAnimator;
     public GameObject player;
     public float damage = 20.0f;
+    public float chaseSpeed = 6f;
+    public float walkSpeed = 2f;
     public bool canAtack = true;
     public float health = 100.0f;
     public GameManager gameManager;
     public Slider healthBar;
     
     // Animación y delay de ataque
+    public float chaseDistance = 20f;
     public bool playerInReach = false;
     public float attackDelayTimer = 0f;
     public float howMuchEarlierStartAttackAnimation = 2f;
     public float delayBetweenAttacks = 1.0f;
+    public float attackRange = 2.0f;
 
     public AudioClip[] audioClips;
     public AudioSource audioSource;
@@ -37,6 +43,9 @@ public class EnemyManager : MonoBehaviour
         playersInScene = GameObject.FindGameObjectsWithTag("Player");
         healthBar.maxValue = health;
         healthBar.value = health;
+        
+        stateMachine = new ZombieStateMachine(this);
+        stateMachine.ChangeState(new IdleState());  // Estado inicial
     }
 
 
@@ -62,16 +71,18 @@ public class EnemyManager : MonoBehaviour
             return;
         }
         
+        stateMachine.Update();
+        
         GetClosestPlayer();
         if(player != null)
         {
             // Se asigna al Player como el destino objetivo
-            GetComponent<NavMeshAgent>().destination = player.transform.position;
+            //GetComponent<NavMeshAgent>().destination = player.transform.position;
     
             healthBar.transform.LookAt(player.transform);
         }
         
-        // Animación de movimiento
+        /*// Animación de movimiento
         if (GetComponent<NavMeshAgent>().velocity.magnitude > 1)
         {
             enemyAnimator.SetBool("isRunning", true);
@@ -79,7 +90,7 @@ public class EnemyManager : MonoBehaviour
         else
         {
             enemyAnimator.SetBool("isRunning", false);
-        }
+        }*/
 
         
     }
@@ -176,5 +187,25 @@ public class EnemyManager : MonoBehaviour
                 }
             }
         }
+    }
+    
+    public bool JugadorALaVista()
+    {
+        if (player != null)
+        {
+            float distance = Vector3.Distance(transform.position, player.transform.position);
+            if (distance < chaseDistance)
+            {
+                NavMeshPath path = new NavMeshPath();
+                NavMeshAgent agent = GetComponent<NavMeshAgent>();
+                            
+                // Calcula el camino hasta el jugador
+                bool pathFound = agent.CalculatePath(player.transform.position, path);
+                            
+                // Es alcanzable si el path es completo
+                return pathFound && path.status == NavMeshPathStatus.PathComplete;
+            }
+        }
+        return false;
     }
 }
