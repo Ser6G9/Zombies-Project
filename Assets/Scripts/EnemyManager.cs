@@ -13,11 +13,14 @@ public class EnemyManager : MonoBehaviour
     
     public Animator enemyAnimator;
     public GameObject player;
+    public GameObject corpseTarget = null;
+    public GameObject thisZombieCorpse;
     public float damage = 20.0f;
     public float chaseSpeed = 6f;
     public float walkSpeed = 2f;
     public bool canAtack = true;
-    public float health = 100.0f;
+    public float maxHealth = 100.0f;
+    public float health;
     public GameManager gameManager;
     public Slider healthBar;
     
@@ -43,6 +46,8 @@ public class EnemyManager : MonoBehaviour
         playersInScene = GameObject.FindGameObjectsWithTag("Player");
         healthBar.maxValue = health;
         healthBar.value = health;
+        health = maxHealth;
+        thisZombieCorpse.SetActive(false);
         
         stateMachine = new ZombieStateMachine(this);
         stateMachine.ChangeState(new IdleState());  // Estado inicial
@@ -71,6 +76,12 @@ public class EnemyManager : MonoBehaviour
             return;
         }
         
+        // Si está al 25% de vida o menos busca un cuerpo para comer
+        if (((health*maxHealth)/100) <= 25 && corpseTarget==null)
+        {
+            SearchNearestCorpse();
+        }
+        
         stateMachine.Update();
         
         GetClosestPlayer();
@@ -78,7 +89,7 @@ public class EnemyManager : MonoBehaviour
         {
             // Se asigna al Player como el destino objetivo
             //GetComponent<NavMeshAgent>().destination = player.transform.position;
-    
+            
             healthBar.transform.LookAt(player.transform);
         }
         
@@ -154,12 +165,14 @@ public class EnemyManager : MonoBehaviour
             if (health <= 0)
             {
                 //Destroy(gameObject);
-                Destroy(gameObject,30f);
+                Destroy(gameObject,40f);
                 Destroy(GetComponent<BoxCollider>());
                 Destroy(GetComponent<NavMeshAgent>());
                 Destroy(GetComponent<EnemyManager>());
                 Destroy(GetComponent<CapsuleCollider>());
                 enemyAnimator.SetTrigger("isDead");
+                //gameObject.tag = "Corpse";
+                thisZombieCorpse.SetActive(true);
 
                 if (!PhotonNetwork.InRoom || (PhotonNetwork.IsMasterClient && photonView.IsMine))
                 {
@@ -207,5 +220,25 @@ public class EnemyManager : MonoBehaviour
             }
         }
         return false;
+    }
+    
+    public void SearchNearestCorpse(float detectionRadius = 10f)
+    {
+        GameObject[] corpses = GameObject.FindGameObjectsWithTag("Corpse");
+        float minDistance = Mathf.Infinity;
+        Vector3 currentPos = transform.position;
+
+        foreach (GameObject corpse in corpses)
+        {
+            float dist = Vector3.Distance(currentPos, corpse.transform.position);
+            if (dist < minDistance && dist <= detectionRadius)
+            {
+                corpseTarget = corpse;
+                minDistance = dist;
+                stateMachine.ChangeState(new EatCorpseState());
+            }
+        }
+        
+        
     }
 }

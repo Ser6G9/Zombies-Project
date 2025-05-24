@@ -27,6 +27,7 @@ public class IdleState : ZombieState
         {
             enemy.stateMachine.ChangeState(new WanderState());
         }
+        
     }
 
     public override void Exit()

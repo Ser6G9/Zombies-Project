@@ -29,6 +29,8 @@ public class WanderState : ZombieState
             enemy.stateMachine.ChangeState(new ChaseState());
             return;
         }
+        
+        
 
         timer += Time.deltaTime;
         if (timer >= wanderTime)
