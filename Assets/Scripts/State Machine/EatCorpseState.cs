@@ -23,6 +23,7 @@ public class EatCorpseState : ZombieState
             enemy.GetComponent<NavMeshAgent>().isStopped = false;
             enemy.GetComponent<NavMeshAgent>().SetDestination(enemy.corpseTarget.transform.position);
             enemy.enemyAnimator.SetBool("isGoingToEat", true);
+            enemy.GetComponent<NavMeshAgent>().speed = 3.3f;
         }
     }
 

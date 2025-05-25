@@ -998,7 +998,7 @@ MonoBehaviour:
   corpseTarget: {fileID: 0}
   thisZombieCorpse: {fileID: 4402783737113839323}
   damage: 15
-  chaseSpeed: 4
+  chaseSpeed: 5
   walkSpeed: 1
   canAtack: 1
   maxHealth: 100
