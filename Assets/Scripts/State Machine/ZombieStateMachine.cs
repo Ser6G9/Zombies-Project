@@ -27,25 +27,4 @@ public class ZombieStateMachine : MonoBehaviour
     {
         currentState?.Update();
     }
-
-
-    
-
-    /*
-    void Update()
-    {
-        currentState?.Update();
-        HandleAnyStateTransitions();
-    }
-
-    private void HandleAnyStateTransitions()
-    {
-        // Example of global transitions
-        if (zombieHP <= Random.Range(0, 25))
-        {
-            ChangeState(new FakeDeadState(this, gameObject));
-        }
-    }
-
-    public Transform GetPlayer() => player;*/
 }
