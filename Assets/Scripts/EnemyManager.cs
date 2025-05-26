@@ -76,8 +76,8 @@ public class EnemyManager : MonoBehaviour
             return;
         }
         
-        // Si está al 25% de vida o menos busca un cuerpo para comer
-        if (((health*maxHealth)/100) <= 25 && corpseTarget==null)
+        // Si está al 50% de vida o menos busca un cuerpo para comer
+        if (((health*maxHealth)/100) <= 50 && corpseTarget==null)
         {
             SearchNearestCorpse();
         }
